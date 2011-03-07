@@ -1,0 +1,33 @@
+#IssueHolder{
+	padding:10px;
+}
+
+table{
+	border-collapse:collapse;
+}
+table th{
+	text-align:left;
+}
+table td{
+	border:1px solid black;
+	padding:5px;
+	background:#fff;
+}
+
+.hotsort1{color:#b3d6ec;}
+.hotsort2{color:#4da7e1;}
+.hotsort3{color:#6694c5;}
+.hotsort4{color:#7787b2;}
+.hotsort5{color:#937192;}
+.hotsort6{color:#a5647f;}
+.hotsort7{color:#ac5e76;}
+.hotsort8{color:#c64b59;}
+.hotsort9{color:#dc393f;}
+.hotsort10{color:#eb2e2e;}
+
+table.progress{
+	width:100%;
+}
+table.progress td.closed{
+	background-color:green;
+}
