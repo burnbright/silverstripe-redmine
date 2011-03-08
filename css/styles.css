@@ -1,5 +1,7 @@
 #IssueHolder{
 	padding:10px;
+	overflow:auto;
+	height:100%;
 }
 
 #IssueHolder li{
@@ -13,7 +15,7 @@ table th{
 	text-align:left;
 }
 table td{
-	border:1px solid black;
+	border:1px solid grey;
 	padding:5px;
 	background:#fff;
 }
@@ -35,3 +37,16 @@ table.progress{
 table.progress td.closed{
 	background-color:green;
 }
+
+div.right{
+	
+}
+
+table.issues .description{
+	height:1em;
+	overflow:hidden;
+}
+	table.issues .description:hover{
+		height:auto;
+		overflow:display;
+	}

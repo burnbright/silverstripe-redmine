@@ -2,7 +2,7 @@
 <div id="IssueHolder">
 	<h1>Issues</h1>
 	<% if Issues %>
-	<table  width="100%">
+	<table class="issues" width="100%">
 		<thead>
 			<tr>
 				<th>ID</th>
@@ -34,7 +34,11 @@
 			{$done_ratio}%</td>
 		</tr>
 		<tr>
-			<td colspan="9">$description</td>
+			<td colspan="9">
+				<div class="description">
+					$description
+				</div>
+			</td>
 		</tr>
 	<% end_control %>
 	</table>

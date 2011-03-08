@@ -123,7 +123,7 @@ class RedmineAdmin extends LeftAndMain{
 			}
 			
 			foreach($datecols as $col){
-				$date = new SSDatetime('col');
+				$date = new SS_Datetime('col');
 				$date->setValue((string)$issue->{$col});
 				$fields[$col] = $date;
 			}
