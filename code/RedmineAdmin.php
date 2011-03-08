@@ -9,6 +9,7 @@ class RedmineAdmin extends LeftAndMain{
 	static $url,$username,$password,$apikey;
 	static $projectid;
 	static $cachetime = 3000; //just under one hour
+	static $email;
 	
 	static $priorities = array(
 			3 => 'Low',
@@ -33,6 +34,10 @@ class RedmineAdmin extends LeftAndMain{
 	
 	function set_project_id($pid){
 		self::$projectid = $pid;		
+	}
+	
+	function set_email($email){
+		self::$email = $email;
 	}
 	
 	/**
@@ -173,9 +178,7 @@ XML;
 			$xml_data->addChild($name,$value);
 		}
 		
-		$response = $this->apiCall('issues.xml','POST',$xml_data);
-		
-		die($response->getBody());
+		$response = $this->apiCall('issues.xml','POST',$xml_data);//TODO: this isn't working
 		
 		Director::redirectBack();
 		return;

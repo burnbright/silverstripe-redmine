@@ -40,7 +40,5 @@
 	</table>
 	<% end_if %>
 	
-	<h2>Submit New Issue</h2>
-	$NewIssueForm
 </div>
 
