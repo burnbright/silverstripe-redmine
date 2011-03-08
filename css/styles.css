@@ -2,6 +2,10 @@
 	padding:10px;
 }
 
+#IssueHolder li{
+	list-style:disc inside;
+}
+
 table{
 	border-collapse:collapse;
 }
