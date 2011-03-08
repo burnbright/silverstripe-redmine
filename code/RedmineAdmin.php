@@ -9,14 +9,23 @@ class RedmineAdmin extends LeftAndMain{
 	static $url,$username,$password,$apikey;
 	static $projectid;
 	static $cachetime = 3000; //just under one hour
-	static $email;
+	static $emailfrom,$emailto;
 	
+	
+	//This is needed until the API supports retrieving enumerations
 	static $priorities = array(
 			3 => 'Low',
 			4 => 'Normal',
 			5 => 'High',
 			6 => 'Urgent',
 			7 => 'Immediate'
+	);
+	
+	static $trackers = array(
+		3 => 'Support',
+		1 => 'Bug',
+		2 => 'Feature'
+		
 	);
 	
 	static function set_url($url){
@@ -36,8 +45,12 @@ class RedmineAdmin extends LeftAndMain{
 		self::$projectid = $pid;		
 	}
 	
-	function set_email($email){
-		self::$email = $email;
+	function set_email_to($email){
+		self::$emailto = $email;
+	}
+	
+	function set_email_from($email){
+		self::$emailfrom = $email;
 	}
 	
 	/**
@@ -140,8 +153,12 @@ class RedmineAdmin extends LeftAndMain{
 		
 		$fields = new FieldSet(
 			new TextField('subject','Subject'),
+			new DropdownField('tracker_id','Type',self::$trackers),
 			new DropdownField('priority_id','Priority',self::$priorities),
 			new TextareaField('description','Description')
+			
+			//TODO: allow attachments
+			//TODO: allow setting custom fields
 		);
 		
 		$actions = new FieldSet(
@@ -155,10 +172,45 @@ class RedmineAdmin extends LeftAndMain{
 		);
 		
 		return new Form($this,'NewIssueForm',$fields,$actions,$validator);
-		
 	}
 	
+	
+	/**
+	 * http://www.redmine.org/projects/redmine/wiki/RedmineReceivingEmails
+	 */
 	function doSubmit($data,$form){
+		
+		if(!self::$emailto){
+			user_error('Email is not set for sending issues to.',E_USER_ERROR);
+			return;
+		}
+		
+		$body = $data['description'];
+		
+		if($member = Member::currentUser())
+			$body .= "\r\nSubmitted by user: ".$member->getName()." <".$member->Email.">";
+		
+		
+		$body .= "\r\n\r\nProject: ".self::$projectid;
+		$body .= "\r\nPriority: ".self::$priorities[$data['priority_id']];
+		$body .= "\r\nTracker: ".self::$trackers[$data['tracker_id']];
+		$body .= "\r\nStatus: New";
+		//TODO, add Tracker (eg: bug, feature etc)
+		
+		$from = self::$emailfrom; //TODO: this is needed until I find out how to allow anonymous users to add to private projects
+		
+		$email = new Email($from,self::$emailto,$data['subject'],$body);
+		$email->sendPlain();
+		
+		$form->sessionMessage("The issue has been successfully submitted. It will appear on the issues list soon.","good");
+		
+		Director::redirectBack();
+	}
+	
+	/**
+	 * Submit to the redmine api.
+	 */
+	function doAPISubmit($data,$form){
 		
 		unset($data['url']);
 		unset($data['SecurityID']);

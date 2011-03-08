@@ -43,6 +43,6 @@
 	<% end_control %>
 	</table>
 	<% end_if %>
-	
+	$NewIssueForm
 </div>
 
